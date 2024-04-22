@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scanImage/tools/app_routes.dart';
 import 'package:sizer/sizer.dart';
+
+import '../tools/app_routes.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +21,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routes: AppRoutes.routes,
           initialRoute: "/",
-          // theme:lightTheme(),
         );
       },
     );

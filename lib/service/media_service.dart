@@ -13,5 +13,4 @@ class MediaService {
     final File? file = image == null ? null : File(image.path);
     return file;
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:scanImage/service/media_service.dart';
+
+import 'media_service.dart';
 
 GetIt locator = GetIt.instance;
 

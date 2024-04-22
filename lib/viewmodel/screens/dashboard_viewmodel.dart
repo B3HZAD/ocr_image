@@ -1,10 +1,10 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-import 'package:scanImage/service/service_locator.dart';
-import 'package:scanImage/tools/text_recognizer.dart';
-import 'package:scanImage/viewmodel/base_view_model.dart';
+import 'package:flutter/material.dart';
+import '../../model/image_data_model.dart';
+import '../../service/app_text_recognizer.dart';
 import '../../service/media_service.dart';
+import '../../service/service_locator.dart';
+import '../base_view_model.dart';
 
 class DashboardViewModel extends BaseViewModel {
   BuildContext context;
@@ -13,11 +13,17 @@ class DashboardViewModel extends BaseViewModel {
 
   final mediaService = locator.get<MediaService>();
   File? image;
+  File? loadedImage;
   String resultText = "";
   bool loading = false;
-  final MLKitTextRecognizer _recognizer = MLKitTextRecognizer();
 
-  init() {}
+  final AppTextRecognizer _recognizer = AppTextRecognizer();
+
+  @override
+  void dispose() {
+    _recognizer.dispose();
+    super.dispose();
+  }
 
   Future<void> getImage({bool gallery = false}) async {
     image = await mediaService.getImage(fromGallery: gallery);
@@ -27,20 +33,24 @@ class DashboardViewModel extends BaseViewModel {
   }
 
   readTextFromImage(String path) async {
-    List<String> recognizedText = [];
     loading = true;
     resultText = "";
+    loadedImage = null;
     notifyListeners();
-    try {
-      recognizedText = await _recognizer.processImage(path);
-    } catch (e) {
-      recognizedText = [];
-    }
+
+    List<String> recognizedText = [];
+    ImageDataModel imageData = ImageDataModel();
+
+    ImageDataModel? temp = await _recognizer.processImage(path);
+    imageData.lines = temp!.lines;
+    imageData.imagePath = temp.imagePath;
+
+    recognizedText = imageData.lines!;
+    loadedImage = File(image!.path);
 
     for (var element in recognizedText) {
       resultText += "$element\n";
     }
-
     loading = false;
     notifyListeners();
   }

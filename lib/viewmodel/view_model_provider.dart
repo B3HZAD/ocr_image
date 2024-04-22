@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scanImage/viewmodel/base_view_model.dart';
+
+import 'base_view_model.dart';
 
 class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
   final BaseViewModel viewModel;

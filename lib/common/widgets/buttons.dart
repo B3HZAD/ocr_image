@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scanImage/common/resources/color_manager.dart';
 import 'package:sizer/sizer.dart';
+
+import '../resources/color_manager.dart';
 
 Widget actionButton(IconData icon, {required Future<void> Function() action}) {
   return GestureDetector(
